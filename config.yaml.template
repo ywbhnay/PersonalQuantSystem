@@ -1,0 +1,110 @@
+# 统一量化交易系统配置文件模板
+# 用户可根据需求修改以下所有参数
+
+# 运行模式
+mode: backtest  # backtest 或 live
+
+# 数据管理配置
+data_management:
+  max_temp_orders: 1000          # 最大临时订单数量
+  max_trades_history: 10000      # 最大交易历史记录数
+  max_order_records: 5000        # 最大订单记录数
+  max_quote_cache: 1000          # 最大行情缓存数量
+
+# 系统时间配置
+system_timing:
+  auto_clean_interval: 300       # 自动清理间隔(秒)
+  temp_order_expire_minutes: 1   # 临时订单过期时间(分钟)
+  order_timeout_seconds: 30      # 订单超时时间(秒)
+  quote_update_interval: 1       # 行情更新间隔(秒)
+
+# 网络和重试配置
+network:
+  max_retry_attempts: 3          # 最大重试次数
+  retry_delay_seconds: 1         # 重试延迟时间(秒)
+  connection_timeout: 10         # 连接超时时间(秒)
+  request_timeout: 5             # 请求超时时间(秒)
+
+# 日志配置
+logging:
+  max_file_size: 10485760        # 最大日志文件大小(字节) - 10MB
+  backup_count: 5                # 日志文件备份数量
+  log_level: INFO                # 日志级别: DEBUG, INFO, WARNING, ERROR
+  console_output: true           # 是否输出到控制台
+  file_output: true              # 是否输出到文件
+  
+# 交易配置
+trading:
+  default_trade_size: 100        # 默认交易数量
+  max_position_size: 10000       # 最大持仓数量
+  risk_limit_percent: 2.0        # 风险限制百分比
+  stop_loss_percent: 5.0         # 止损百分比
+  take_profit_percent: 10.0      # 止盈百分比
+
+# 回测配置
+backtest:
+  start_date: "2023-01-01"       # 回测开始日期
+  end_date: "2023-12-31"         # 回测结束日期
+  initial_cash: 100000           # 初始资金
+  commission: 0.001              # 手续费率
+  
+# 实盘交易配置
+live_trading:
+  account_id: ""                 # 交易账户ID (请填写实际账户)
+  broker: "qmt"                  # 券商类型: qmt, xtquant
+  
+# QMT配置 (如使用QMT)
+qmt:
+  server_ip: "127.0.0.1"         # QMT服务器IP
+  server_port: 58610             # QMT服务器端口
+  username: ""                   # 用户名 (请填写实际用户名)
+  password: ""                   # 密码 (请填写实际密码)
+  
+# XtQuant配置 (如使用XtQuant)
+xtquant:
+  account_type: "STOCK"          # 账户类型
+  account_id: ""                 # 账户ID (请填写实际账户)
+  
+# 数据源配置
+data_source:
+  provider: "tushare"            # 数据提供商: tushare, akshare, wind
+  api_token: ""                  # API Token (请填写实际Token)
+  
+# 策略配置
+strategy:
+  name: "MyStrategy"             # 策略名称
+  parameters:                    # 策略参数
+    fast_period: 10              # 快速均线周期
+    slow_period: 30              # 慢速均线周期
+    signal_threshold: 0.02       # 信号阈值
+    
+# 性能监控配置
+performance:
+  enable_monitoring: true        # 是否启用性能监控
+  cpu_threshold: 80              # CPU使用率阈值(%)
+  memory_threshold: 80           # 内存使用率阈值(%)
+  response_time_threshold: 100   # 响应时间阈值(毫秒)
+  
+# 通知配置
+notification:
+  enable_email: false            # 是否启用邮件通知
+  email_smtp_server: ""          # SMTP服务器
+  email_username: ""             # 邮箱用户名
+  email_password: ""             # 邮箱密码
+  email_recipients: []           # 收件人列表
+  
+  enable_webhook: false          # 是否启用Webhook通知
+  webhook_url: ""                # Webhook URL
+  
+# 安全配置
+security:
+  enable_encryption: true        # 是否启用加密
+  max_login_attempts: 3          # 最大登录尝试次数
+  session_timeout: 3600          # 会话超时时间(秒)
+  
+# 调试配置
+debug:
+  enable_debug_mode: false       # 是否启用调试模式
+  log_sql_queries: false         # 是否记录SQL查询
+  enable_profiling: false        # 是否启用性能分析
+  save_debug_data: false         # 是否保存调试数据
