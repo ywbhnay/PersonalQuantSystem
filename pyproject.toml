@@ -1,0 +1,231 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "personal-quant-system"
+version = "1.0.0"
+description = "个人量化交易系统 - 支持回测和实盘交易的统一平台"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "AlphaBot", email = "your-email@example.com"}
+]
+keywords = ["quantitative", "trading", "backtest", "finance", "investment"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Scientific/Engineering :: Information Analysis"
+]
+
+# 核心依赖
+dependencies = [
+    "numpy>=1.21.0",
+    "pandas>=1.3.0",
+    "matplotlib>=3.4.0",
+    "seaborn>=0.11.0",
+    "plotly>=5.0.0",
+    "PyYAML>=6.0",
+    "requests>=2.25.0",
+    "loguru>=0.6.0",
+    "click>=8.0.0",
+    "rich>=12.0.0",
+    "tqdm>=4.60.0",
+    "psutil>=5.8.0",
+    "schedule>=1.1.0",
+    "python-dateutil>=2.8.0",
+    "pytz>=2021.1"
+]
+
+# 可选依赖组
+[project.optional-dependencies]
+# 回测引擎
+backtest = [
+    "backtrader>=1.9.76",
+    "bt>=0.2.9",
+    "zipline-reloaded>=2.2.0",
+    "empyrical>=0.5.5"
+]
+
+# 实盘交易
+live = [
+    "xtquant>=1.8.0",
+    "easytrader>=0.19.0",
+    "vnpy>=3.0.0"
+]
+
+# 数据源
+data = [
+    "tushare>=1.2.89",
+    "akshare>=1.8.0",
+    "yfinance>=0.1.87",
+    "ccxt>=2.0.0",
+    "baostock>=0.8.8"
+]
+
+# 机器学习
+ml = [
+    "scikit-learn>=1.0.0",
+    "xgboost>=1.5.0",
+    "lightgbm>=3.3.0",
+    "catboost>=1.0.0",
+    "tensorflow>=2.8.0",
+    "torch>=1.11.0"
+]
+
+# 技术分析
+ta = [
+    "talib>=0.4.25",
+    "ta>=0.10.0",
+    "pandas-ta>=0.3.14b",
+    "finta>=1.3"
+]
+
+# 数据库
+db = [
+    "sqlalchemy>=1.4.0",
+    "pymongo>=4.0.0",
+    "redis>=4.0.0",
+    "influxdb-client>=1.24.0"
+]
+
+# 开发工具
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+    "mypy>=0.991",
+    "pre-commit>=2.20.0",
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0"
+]
+
+# Jupyter支持
+jupyter = [
+    "jupyter>=1.0.0",
+    "jupyterlab>=3.4.0",
+    "ipywidgets>=8.0.0",
+    "notebook>=6.4.0"
+]
+
+# 完整安装
+all = [
+    "personal-quant-system[backtest,live,data,ml,ta,db,jupyter]"
+]
+
+[project.urls]
+Homepage = "https://github.com/ywbhnay/PersonalQuantSystem"
+Repository = "https://github.com/ywbhnay/PersonalQuantSystem"
+Documentation = "https://github.com/ywbhnay/PersonalQuantSystem/wiki"
+"Bug Tracker" = "https://github.com/ywbhnay/PersonalQuantSystem/issues"
+
+[project.scripts]
+quant-system = "main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["quant_system*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml", "*.json", "*.txt", "*.md"]
+
+# Black代码格式化配置
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | logs
+    | data
+  )/
+)
+'''
+
+# isort导入排序配置
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+# MyPy类型检查配置
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+# Pytest测试配置
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m "not slow"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "backtest: marks tests related to backtesting",
+    "live: marks tests related to live trading"
+]
+
+# Coverage配置
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py",
+    "*/venv/*",
+    "*/.venv/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\bProtocol\):",
+    "@(abc\.)?abstractmethod"
+]
